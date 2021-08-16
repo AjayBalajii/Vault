@@ -158,11 +158,7 @@ const[t4,setTime4] = useState("");
 
     }
    
-    web3.eth.getAccounts(function(err, accounts){
-      if (err != null) console.error("An error occurred: "+err);
-      else if (accounts.length == 0) console.log("User is not logged in to MetaMask");
-      else console.log("User is logged in to MetaMask");
-    });
+   
    // let account = await web3.eth.getAccounts();
    
  //document.getElementById("cc").style.visibility="hidden";
@@ -273,11 +269,7 @@ else{
   
 }
 }
-else{
 
-
-
-}
 
   })
 
