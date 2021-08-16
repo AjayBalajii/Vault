@@ -163,17 +163,14 @@ const[t4,setTime4] = useState("");
   window.location.href="https://blackdashboard-rho.vercel.app/black";
 } 
 
-useEffect(async()=>{
-  setacc(await web3.eth.getAccounts());
 
-})
   useEffect(async()=>{
     document.body.style.backgroundColor="black";
    
     let account = await web3.eth.getAccounts();
 
     
-
+    setacc(account);
     
    
     if(account!=0){
