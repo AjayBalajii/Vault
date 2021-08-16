@@ -126,6 +126,12 @@ function MyVerticallyCenteredModal1(props) {
       </Modal>
     );
   }
+const connect = async() => {
+  const currProvider = window.web3.currentProvider;
+
+const web3 = new Web3(currProvider);
+    await window.ethereum.enable();
+}
 function App() {
   const [modalShow1, setModalShow1] = useState(false);
 
@@ -149,22 +155,7 @@ const[t4,setTime4] = useState("");
   var[t5,settime5]=useState("");
   var[acc,setacc]=useState("");
 
-  const connect = async() => {
-    if(acc!=0){
-
-    }
-    else{
-      window.ethereum.enable();
-
-    }
-   
-   
-   // let account = await web3.eth.getAccounts();
-   
- //document.getElementById("cc").style.visibility="hidden";
-// document.getElementById("cc").style.visibility="hidden";
- //window.location.reload();
- }
+  
  function backk(){
   window.location.href="https://blackdashboard-rho.vercel.app/black";
 } 
@@ -393,7 +384,7 @@ else{
 ((
  <div><h5>Please Check whether metamask is connected?</h5>
  <br />
- <button class="btn btn-dark" onClick={connect}>Connect wallet</button></div>
+ <button class="btn btn-dark" >Connect wallet</button></div>
 ))
 } 
   </div>&nbsp;&nbsp;&nbsp;&nbsp;
