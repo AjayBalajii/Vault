@@ -17,6 +17,8 @@ import web3 from './web3';
 import token from './token.js';
 //import vault from './vault.js';
 
+import { useWeb3React } from "@web3-react/core";
+import { injected } from "./connectors";
 
 
 
@@ -126,13 +128,9 @@ function MyVerticallyCenteredModal1(props) {
       </Modal>
     );
   }
-const connect = async() => {
-  const currProvider = window.web3.currentProvider;
 
-const web3 = new Web3(currProvider);
-    await window.ethereum.enable();
-}
 function App() {
+
   const [modalShow1, setModalShow1] = useState(false);
 
 
@@ -155,23 +153,31 @@ const[t4,setTime4] = useState("");
   var[t5,settime5]=useState("");
   var[acc,setacc]=useState("");
 
-  
+  const connect = async() => {
+   
+      await window.ethereum.enable();
+
+  }
+
  function backk(){
   window.location.href="https://blackdashboard-rho.vercel.app/black";
 } 
 
+useEffect(async()=>{
+  setacc(await web3.eth.getAccounts());
+
+})
   useEffect(async()=>{
     document.body.style.backgroundColor="black";
    
     let account = await web3.eth.getAccounts();
-      setacc(await web3.eth.getAccounts());
 
     
 
     
    
     if(account!=0){
-     
+
      setId2(await token.methods.balanceOf(account[0]).call());
      var circulate = await vabi.methods.getCirculatingSupply().call();
      var balance = await vabi.methods.getBurnVaultBNBBalance().call();
