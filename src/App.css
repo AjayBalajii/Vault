@@ -7,6 +7,9 @@
   width: 25%;
   position: relative;
 }
+.myInput{
+  height: fit-content;
+}
 .stepper .nav-tabs > li:after {
   content: "";
   position: absolute;

@@ -3,7 +3,6 @@ import back from './back.png';
 import './App.css';
 import { Modal, Button,InputGroup,FormControl } from "react-bootstrap";
 import l from "./suc.png"
-// Import react-circular-progressbar module and styles
 import {
   CircularProgressbar,
   buildStyles
@@ -17,8 +16,6 @@ import web3 from './web3';
 import token from './token.js';
 //import vault from './vault.js';
 
-import { useWeb3React } from "@web3-react/core";
-import { injected } from "./connectors";
 
 
 
@@ -29,7 +26,8 @@ import { injected } from "./connectors";
 function MyVerticallyCenteredModal1(props) {
  
   var [tid4,setId4] = useState();
-   
+  const [tid2,setId2] = useState([]);
+
   
  
  var myfunct=async()=>{
@@ -70,8 +68,9 @@ function MyVerticallyCenteredModal1(props) {
          let amount = a * 1000000000;
       
       await vabi.methods.swap(amount).send({from:account[0]});
+      setId2(await token.methods.balanceOf(account[0]).call());
+
   //document.getElementById("nm").reload();
- window.location.reload(); 
  }
   else{
   alert("The amount you entered must be less than the Availabe limit ");
@@ -96,7 +95,7 @@ function MyVerticallyCenteredModal1(props) {
         id="mymodal"
         centered
       >
-        <Modal.Header className="myModal" style={{backgroundColor:"#191919",color:"white"}} closeButton>
+        <Modal.Header className="myModal" style={{backgroundColor:"#191919",color:"white"}}>
            
           <Modal.Title id="contained-modal-title-vcenter" >
             Amount to Swap
@@ -107,7 +106,7 @@ function MyVerticallyCenteredModal1(props) {
         <Modal.Body style={{backgroundColor:"#191919", color:"white"}}  className="myModal">
           <InputGroup>
     <InputGroup.Prepend>
-     <h5>Black : </h5>&nbsp;
+     <h5>Black : &nbsp;&nbsp;&nbsp;</h5>
     </InputGroup.Prepend>
     <FormControl className="myInput" onChange={myfunct} id="tid" aria-label="Amount (to the nearest dollar)" /><br/>
     <InputGroup.Append>
@@ -123,7 +122,8 @@ function MyVerticallyCenteredModal1(props) {
   </InputGroup>
         </Modal.Body>
         <Modal.Footer style={{backgroundColor:"#191919"}}  className="myModal">
-          <Button variant="info" onClick={swap}>Swap</Button>
+          <button class="btn-flat" onClick={swap}>Swap</button>
+
         </Modal.Footer>
       </Modal>
     );
@@ -156,6 +156,10 @@ const[t4,setTime4] = useState("");
   const connect = async() => {
    
       await window.ethereum.enable();
+      let account = await web3.eth.getAccounts();
+
+    
+      setacc(account);
 
   }
 
@@ -167,15 +171,12 @@ const[t4,setTime4] = useState("");
   useEffect(async()=>{
     document.body.style.backgroundColor="black";
    
-    let account = await web3.eth.getAccounts();
-
-    
-    setacc(account);
+   
     
    
-    if(account!=0){
+    if(acc!=0){
 
-     setId2(await token.methods.balanceOf(account[0]).call());
+     setId2(await token.methods.balanceOf(acc[0]).call());
      var circulate = await vabi.methods.getCirculatingSupply().call();
      var balance = await vabi.methods.getBurnVaultBNBBalance().call();
      setId4(circulate/(balance/1000000000000000000));
@@ -183,18 +184,18 @@ const[t4,setTime4] = useState("");
 
     var maxtx  = await vabi.methods.maxTxAmount().call();
    setmaxt(maxtx);
-var burnbalan  = await vabi.methods.senderBurnBalance(account[0]).call();
+var burnbalan  = await vabi.methods.senderBurnBalance(acc[0]).call();
    
 var bb = maxta - burnbalan;
 //console.log(bb);
     setburn(bb/1000000000);
 
-const loc = await vabi.methods.lock(account[0]).call();
+const loc = await vabi.methods.lock(acc[0]).call();
 
 setlct(loc);
 
 
-const b = await vabi.methods.secondsLeft(account[0]).call();
+const b = await vabi.methods.secondsLeft(acc[0]).call();
 
 
 var countDownDate = new Date().getTime() + b * 1000; ;
@@ -234,7 +235,7 @@ setcount(count);
 
 
 
-     var allowan = await token.methods.allowance(account[0],"0x2cFCC708e5398311c14A34Ea0A8d5871A0f33eB1").call();
+     var allowan = await token.methods.allowance(acc[0],"0x2cFCC708e5398311c14A34Ea0A8d5871A0f33eB1").call();
      if(allowan == 0){
       setId3(true);
       //document.getElementById("swap").disabled=false;
@@ -250,7 +251,7 @@ setcount(count);
      // document.getElementById("cc").style.visibility="true";
 
    }
-if(account!=0){
+if(acc!=0){
   
 
 if(tid3==true){
@@ -299,6 +300,7 @@ else{
 <div class="col-2">
  <img src ={back} alt="" height={40} onClick={backk} width={40}/>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src={logo} alt="" height={80} width={80}/>
+
 </div>
 <div class="col-4">
 {acc!=0 ?((
